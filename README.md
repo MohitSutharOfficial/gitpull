@@ -1,15 +1,20 @@
 # GitPull
 ## 🏔️ Hill Climb Racing Game 🚗
-A fun and interactive web-based hill climb racing game with full keyboard controls!
+A fun and interactive web-based hill climb racing game with full keyboard and touch controls! Play on desktop or mobile devices.
 
 ### 🎮 How to Play
 
 1. Open `index.html` in your web browser
-2. Use keyboard controls to drive your car:
+2. **Desktop Controls** (Keyboard):
    - **⬆️ UP Arrow**: Accelerate (Gas)
    - **⬇️ DOWN Arrow**: Brake
    - **⬅️ LEFT Arrow**: Tilt car backward
    - **➡️ RIGHT Arrow**: Tilt car forward
+3. **Mobile Controls** (Touch):
+   - **⬆️ Button**: Accelerate (Gas)
+   - **⬇️ Button**: Brake
+   - **⬅️ Button**: Tilt car backward
+   - **➡️ Button**: Tilt car forward
 
 ### 🎯 Game Features
 
@@ -48,9 +53,21 @@ open index.html
 
 - Pure HTML5 Canvas-based rendering
 - Vanilla JavaScript (no dependencies)
-- Responsive keyboard controls
+- Responsive design for all screen sizes
+- Dual input support:
+  - Desktop: Keyboard controls
+  - Mobile: Touch controls
 - 60 FPS smooth animation
 - Camera follows the car
 - Collision detection with terrain
+- Adaptive canvas sizing
+- Touch-optimized interface
+
+### 📱 Device Compatibility
+
+- ✅ Desktop computers (keyboard controls)
+- ✅ Tablets (touch controls)
+- ✅ Mobile phones (touch controls)
+- ✅ Responsive layout adapts to any screen size
 
 Enjoy the ride! 🏁
