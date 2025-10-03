@@ -2,13 +2,14 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Hill Climb Racing</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
         }
 
         body {
@@ -20,6 +21,7 @@
             justify-content: center;
             min-height: 100vh;
             overflow: hidden;
+            touch-action: none;
         }
 
         #gameContainer {
@@ -27,28 +29,33 @@
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
             border-radius: 10px;
             overflow: hidden;
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
         }
 
         #gameCanvas {
             display: block;
             background: #87CEEB;
+            width: 100%;
+            height: auto;
         }
 
         #gameUI {
             position: absolute;
-            top: 20px;
-            left: 20px;
+            top: 10px;
+            left: 10px;
             color: white;
-            font-size: 20px;
+            font-size: 16px;
             font-weight: bold;
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
             z-index: 10;
         }
 
         #gameUI div {
-            margin-bottom: 10px;
+            margin-bottom: 5px;
             background: rgba(0, 0, 0, 0.5);
-            padding: 10px 15px;
+            padding: 8px 12px;
             border-radius: 5px;
         }
 
@@ -58,11 +65,55 @@
             left: 50%;
             transform: translateX(-50%);
             color: white;
-            font-size: 16px;
+            font-size: 14px;
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
             background: rgba(0, 0, 0, 0.7);
-            padding: 10px 20px;
+            padding: 8px 15px;
             border-radius: 5px;
+            white-space: nowrap;
+        }
+
+        /* Touch Controls for Mobile */
+        #touchControls {
+            position: absolute;
+            bottom: 20px;
+            width: 100%;
+            display: none;
+            justify-content: space-between;
+            padding: 0 20px;
+            z-index: 15;
+        }
+
+        .touch-btn {
+            background: rgba(255, 255, 255, 0.3);
+            border: 3px solid rgba(255, 255, 255, 0.8);
+            border-radius: 50%;
+            width: 70px;
+            height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            cursor: pointer;
+            user-select: none;
+            touch-action: none;
+            transition: all 0.1s;
+        }
+
+        .touch-btn:active {
+            background: rgba(255, 255, 255, 0.6);
+            transform: scale(0.95);
+        }
+
+        .touch-btn-group {
+            display: flex;
+            gap: 15px;
+        }
+
+        .tilt-controls {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
         }
 
         #gameOver {
@@ -112,6 +163,95 @@
             margin-bottom: 20px;
             font-size: 36px;
         }
+
+        /* Mobile Responsive Styles */
+        @media only screen and (max-width: 768px) {
+            body {
+                justify-content: flex-start;
+                padding-top: 10px;
+            }
+
+            h1 {
+                font-size: 24px;
+                margin-bottom: 10px;
+            }
+
+            #gameContainer {
+                border-radius: 0;
+                max-width: 100%;
+            }
+
+            #gameUI {
+                font-size: 14px;
+                top: 5px;
+                left: 5px;
+            }
+
+            #gameUI div {
+                padding: 6px 10px;
+                margin-bottom: 3px;
+            }
+
+            #controls {
+                display: none;
+            }
+
+            #touchControls {
+                display: flex;
+            }
+
+            .touch-btn {
+                width: 60px;
+                height: 60px;
+                font-size: 28px;
+            }
+
+            #gameOver {
+                padding: 20px;
+                width: 90%;
+                max-width: 400px;
+            }
+
+            #gameOver h2 {
+                font-size: 32px;
+                margin-bottom: 15px;
+            }
+
+            #gameOver p {
+                font-size: 18px;
+                margin-bottom: 8px;
+            }
+
+            #gameOver button {
+                padding: 12px 30px;
+                font-size: 18px;
+            }
+        }
+
+        @media only screen and (max-width: 480px) {
+            h1 {
+                font-size: 20px;
+            }
+
+            #gameUI {
+                font-size: 12px;
+            }
+
+            .touch-btn {
+                width: 55px;
+                height: 55px;
+                font-size: 24px;
+            }
+
+            #touchControls {
+                padding: 0 10px;
+                bottom: 10px;
+            }
+
+            .touch-btn-group {
+                gap: 10px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -126,6 +266,16 @@
         <div id="controls">
             ⬆️ UP Arrow: Gas | ⬇️ DOWN Arrow: Brake | ⬅️ LEFT/RIGHT Arrow: Tilt
         </div>
+        <div id="touchControls">
+            <div class="touch-btn-group">
+                <div class="touch-btn" id="leftBtn">⬅️</div>
+                <div class="tilt-controls">
+                    <div class="touch-btn" id="gasBtn">⬆️</div>
+                    <div class="touch-btn" id="brakeBtn">⬇️</div>
+                </div>
+                <div class="touch-btn" id="rightBtn">➡️</div>
+            </div>
+        </div>
         <div id="gameOver">
             <h2>Game Over!</h2>
             <p>Final Distance: <span id="finalDistance">0</span>m</p>
@@ -138,9 +288,29 @@
         const canvas = document.getElementById('gameCanvas');
         const ctx = canvas.getContext('2d');
 
+        // Responsive canvas sizing
+        function resizeCanvas() {
+            const container = document.getElementById('gameContainer');
+            const containerWidth = container.clientWidth;
+            const aspectRatio = 600 / 1200;
+            
+            canvas.width = Math.min(containerWidth, 1200);
+            canvas.height = canvas.width * aspectRatio;
+        }
+
+        // Initial resize
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
         // Game state
         let gameRunning = true;
         let keys = {};
+        let touchActive = {
+            gas: false,
+            brake: false,
+            left: false,
+            right: false
+        };
         let camera = { x: 0, y: 0 };
 
         // Car object
@@ -228,8 +398,8 @@
         function updateCar() {
             if (!gameRunning) return;
 
-            // Apply gas
-            if (keys['ArrowUp'] && car.fuel > 0) {
+            // Apply gas (keyboard or touch)
+            if ((keys['ArrowUp'] || touchActive.gas) && car.fuel > 0) {
                 const angle = car.angle;
                 car.vx += Math.cos(angle) * acceleration;
                 car.vy += Math.sin(angle) * acceleration;
@@ -237,17 +407,17 @@
                 car.fuel = Math.max(0, car.fuel);
             }
 
-            // Apply brake
-            if (keys['ArrowDown']) {
+            // Apply brake (keyboard or touch)
+            if (keys['ArrowDown'] || touchActive.brake) {
                 car.vx *= (1 - brake);
                 car.vy *= (1 - brake);
             }
 
-            // Tilt control
-            if (keys['ArrowLeft']) {
+            // Tilt control (keyboard or touch)
+            if (keys['ArrowLeft'] || touchActive.left) {
                 car.angularVelocity -= 0.005;
             }
-            if (keys['ArrowRight']) {
+            if (keys['ArrowRight'] || touchActive.right) {
                 car.angularVelocity += 0.005;
             }
 
@@ -460,7 +630,75 @@
             keys[e.key] = false;
         });
 
+        // Touch controls
+        function setupTouchControls() {
+            const gasBtn = document.getElementById('gasBtn');
+            const brakeBtn = document.getElementById('brakeBtn');
+            const leftBtn = document.getElementById('leftBtn');
+            const rightBtn = document.getElementById('rightBtn');
+
+            // Gas button
+            gasBtn.addEventListener('touchstart', (e) => {
+                e.preventDefault();
+                touchActive.gas = true;
+            });
+            gasBtn.addEventListener('touchend', (e) => {
+                e.preventDefault();
+                touchActive.gas = false;
+            });
+
+            // Brake button
+            brakeBtn.addEventListener('touchstart', (e) => {
+                e.preventDefault();
+                touchActive.brake = true;
+            });
+            brakeBtn.addEventListener('touchend', (e) => {
+                e.preventDefault();
+                touchActive.brake = false;
+            });
+
+            // Left tilt button
+            leftBtn.addEventListener('touchstart', (e) => {
+                e.preventDefault();
+                touchActive.left = true;
+            });
+            leftBtn.addEventListener('touchend', (e) => {
+                e.preventDefault();
+                touchActive.left = false;
+            });
+
+            // Right tilt button
+            rightBtn.addEventListener('touchstart', (e) => {
+                e.preventDefault();
+                touchActive.right = true;
+            });
+            rightBtn.addEventListener('touchend', (e) => {
+                e.preventDefault();
+                touchActive.right = false;
+            });
+
+            // Prevent touch events from bubbling
+            [gasBtn, brakeBtn, leftBtn, rightBtn].forEach(btn => {
+                btn.addEventListener('touchmove', (e) => e.preventDefault());
+                btn.addEventListener('touchcancel', (e) => {
+                    e.preventDefault();
+                    touchActive.gas = false;
+                    touchActive.brake = false;
+                    touchActive.left = false;
+                    touchActive.right = false;
+                });
+            });
+        }
+
+        // Prevent default touch behaviors
+        document.addEventListener('touchmove', (e) => {
+            if (e.target.tagName !== 'BUTTON') {
+                e.preventDefault();
+            }
+        }, { passive: false });
+
         // Initialize and start game
+        setupTouchControls();
         generateTerrain();
         gameLoop();
     </script>
