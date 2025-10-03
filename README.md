@@ -1,7 +1,5 @@
-# gitpull
-
+# GitPull
 ## 🏔️ Hill Climb Racing Game 🚗
-
 A fun and interactive web-based hill climb racing game with full keyboard controls!
 
 ### 🎮 How to Play
