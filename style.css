@@ -128,3 +128,8 @@
      margin-bottom: 20px;
      color: #ff4444;
  }
+
+ #gameOver p {
+     font-size: 20px;
+     margin-bottom: 30px;
+ }

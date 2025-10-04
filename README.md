@@ -36,13 +36,7 @@ A fun and interactive web-based hill climb racing game with full keyboard and to
 
 Simply open the `index.html` file in any modern web browser to start playing!
 
-```bash
-# Using Python
-python3 -m http.server 8000
-# Then visit http://localhost:8000
 
-# Or just open the file directly
-open index.html
 ```
 
 ### 📸 Screenshots
